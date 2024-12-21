@@ -199,86 +199,124 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black87,
-        drawer: _drawerUI(),
-        appBar: AppBar(
-          leading: Builder(builder: (BuildContext context) {
-            return IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                icon: const Icon(Icons.vertical_split_outlined));
-          }),
-          title: const Text('Nammba Flutter ChatBot'),
-          titleTextStyle: TextStyle(color: Colors.blue, fontSize: 22),
-          backgroundColor: Colors.black,
-          iconTheme: IconThemeData(color: Colors.blue),
+      backgroundColor: Colors.black87,
+      drawer: _drawerUI(),
+      appBar: AppBar(
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            icon: const Icon(Icons.history),
+          );
+        }),
+
+        title: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.cyan,
+                width: 2.0,
+              ),
+            ),
+          ),
+          child: Row(
+
+            children: [
+
+               // Space between logo and title
+              const Text(
+                ' நம்மChatBot',
+                style: TextStyle(color: Colors.cyan, fontSize: 26),
+              ),
+              const SizedBox(width: 40),
+              Image.asset(
+                'assets/images/logo.png', // Replace with the path to your logo image
+                height: 60, // Adjust height to fit well in the AppBar
+              ),
+            ],
+          ),
         ),
-        body: _chatUI());
+        backgroundColor: Colors.black,
+        iconTheme: const IconThemeData(color: Colors.cyan),
+      ),
+      body: _chatUI(),
+    );
   }
 
   Widget _drawerUI() {
-    return Drawer(
-      child: Container(
-        color: Colors.black87,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 44),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 9.0),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade800,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                height: 37,
-                child: TextField(
-                  controller: controller,
-                  style: const TextStyle(
-                    color: Colors.white,
+    return Container(
+      height:600,
+      decoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(
+            color: Colors.white, // Match your app's accent color
+            width: 1.0, // Border width
+          ),
+        ),
+      ),
+      child: Drawer(
+        child: Container(
+          color: Colors.black,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 44),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5.0), // Added margin
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    color: Colors.black26,
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  cursorColor: Colors.white,
-                  textCapitalization: TextCapitalization.sentences,
-                  onChanged: (text) {
-                    setState(() {});
-                  },
-                  decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: "Search",
-                      hintStyle: TextStyle(
-                        color: Colors.grey
-                      ),
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: Colors.white60,
-                      )),
-                ),
-              ),
-              Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.home_outlined, color: Colors.white),
-                    title:
-                        Text('New Chat', style: TextStyle(color: Colors.white)),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
+                  height: 37,
+                  child: TextField(
+                    controller: controller,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                    cursorColor: Colors.white,
+                    textCapitalization: TextCapitalization.sentences,
+                    onChanged: (text) {
+                      setState(() {});
                     },
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Search",
+                        hintStyle: TextStyle(
+                            color: Colors.grey
+                        ),
+                        suffixIcon: Icon(
+                          Icons.search,
+                          color: Colors.white60,
+                        )
+                    ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.update, color: Colors.white),
-                    title:
-                        Text('History', style: TextStyle(color: Colors.white)),
-                    onTap: () {},
-                  ),
-                  const Divider(color: Colors.white),
-                ],
-              )
-            ],
+                ),
+                Column(
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.home_outlined, color: Colors.cyan),
+                      title: Text('New Chat', style: TextStyle(color: Colors.white)),
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.update, color: Colors.cyan),
+                      title: Text('History', style: TextStyle(color: Colors.white)),
+                      onTap: () {},
+                    ),
+                    const Divider(color: Colors.white),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -301,7 +339,7 @@ class _HomePageState extends State<HomePage> {
                     BubbleNormal(
                       text: "Typing...",
                       isSender: false,
-                      color: Colors.grey,
+                      color: Colors.red,
                     ),
                   ],
                 );
@@ -326,7 +364,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         BubbleNormal(
                           text: message.text,
-                          textStyle: TextStyle(color: Colors.white),
+                          textStyle: TextStyle(color: message.user.id == geminiUser.id ? Colors.white : Colors.black), // Set white color for Gemini's response
                           isSender: message.user.id == currentUser.id,
                           color: message.user.id == currentUser.id
                               ? Colors.grey.shade800
@@ -340,11 +378,11 @@ class _HomePageState extends State<HomePage> {
                       icon: _isGenerating
                           ? const Icon(
                               Icons.volume_off,
-                              color: Colors.white60,
+                              color: Colors.cyan,
                             )
                           : const Icon(
                               Icons.volume_up,
-                              color: Colors.white60,
+                              color: Colors.cyan,
                             ),
                       onPressed: () {
                         if (_isGenerating) {
@@ -376,7 +414,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 1.0),
               decoration: BoxDecoration(
-                color: Colors.grey.shade900,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -384,14 +422,14 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                     icon: const Icon(Icons.photo),
                     onPressed: _sendMediaMessage,
-                    color: Colors.white,
+                    color: Colors.cyan,
                     constraints: BoxConstraints(),
                   ),
                   Expanded(
                     child: TextField(
                       controller: controller,
-                      cursorColor: Colors.white,
-                      style: TextStyle(color: Colors.white),
+                      cursorColor: Colors.black26,
+                      style: TextStyle(color: Colors.black),
                       textCapitalization: TextCapitalization.sentences,
                       onChanged: (text) {
                         setState(() {});
@@ -416,7 +454,7 @@ class _HomePageState extends State<HomePage> {
                         : IconButton(
                             icon: Icon(
                               controller.text.isEmpty ? Icons.mic : Icons.send,
-                              color: Colors.white,
+                              color: Colors.cyan,
                             ),
                             onPressed: controller.text.isEmpty
                                 ? null
@@ -446,7 +484,7 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(builder: (context) => VoiceChat()),
               );
             },
-            color: Colors.white,
+            color: Colors.cyan,
           ),
         ],
       ),
