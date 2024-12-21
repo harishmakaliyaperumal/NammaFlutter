@@ -15,6 +15,13 @@ class AlarmApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(color: Colors.black),
+        ),
+      ),
       home: AlarmHomePage(),
     );
   }
@@ -92,23 +99,72 @@ class _AlarmHomePageState extends State<AlarmHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Simple Alarm')),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              height: 30,
+            ),
+            const SizedBox(width: 10),
+            const Text('நம்ம Alarm',),
+          ],
+        ),
+        backgroundColor: Colors.cyan,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (selectedDateTime != null)
-              Text('Selected Time: ${selectedDateTime.toString()}'),
+              Center(
+                child: Text(
+                  'Selected Time: ${selectedDateTime.toString()}',
+                  style: const TextStyle(fontSize: 16, color: Colors.black),
+                ),
+              ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
               onPressed: () => _pickDateTime(context),
-              child: const Text('Pick Date & Time'),
+              child: const Text(
+                'Pick Date & Time',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
               onPressed: _setAlarm,
-              child: const Text('Set Alarm'),
+              child: const Text(
+                'Set Alarm',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 40),
+            Center(
+              child: Text(
+                'Never miss an important moment!',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.blue.shade700,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),
